@@ -1,77 +1,91 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" onclick="openModal()">Generate Character Name</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Your CSS styles here for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+            overflow: auto;
+        }
 
-{% if generated_name %}
-<div id="characterNameModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h1>Generated Character Name:</h1>
-        <h2>{{ generated_name }}</h2>
-    </div>
-</div>
-{% endif %}
+        .modal-content {
+            position: relative;
+            margin: 15% auto;
+            padding: 20px;
+            width: 60%;
+            background-color: #000; /* Black background */
+            text-align: center;
+            color: #fff; /* White text */
+        }
+
+        .close {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #fff; /* White close button */
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        h2 {
+            font-size: 36px;
+            color: blue;
+        }
+    </style>
+</head>
 <body>
-<style>
-    /* Modal */
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 1;
-        overflow: auto;
-    }
+    <form method="post" id="characterForm">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="button" id="generateButton">Generate Character Name</button>
+    </form>
 
-    .modal-content {
-        position: relative;
-        margin: 15% auto;
-        padding: 20px;
-        width: 60%;
-        background-color: #f2f2f2;
-        text-align: center;
-    }
+    <div id="characterNameModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h1>Generated Character Name:</h1>
+            <h2 id="generatedName"></h2> <!-- Use an ID to display the generated name -->
+        </div>
+    </div>
 
-    .close {
-        position: absolute;
-        right: 10px;
-        top: 5px;
-        font-size: 30px;
-        cursor: pointer;
-    }
+    <!-- JavaScript code -->
+    <script>
+        // Include the 'generate_character_name' function
+        function generate_character_name(race, gender, character_class) {
+            // Your Python code for generating character names here
+            // ...
+        }
 
-    h1 {
-        font-size: 24px;
-    }
+        // Function to open the modal
+        function openModal() {
+            var modal = document.getElementById('characterNameModal');
+            var generatedName = generate_character_name("elf", "male", "warrior"); // Replace with actual values
+            document.getElementById('generatedName').textContent = generatedName;
+            modal.style.display = 'block';
+        }
 
-    h2 {
-        font-size: 36px;
-        color: blue;
-    }
-</style>
+        // Function to close the modal
+        function closeModal() {
+            var modal = document.getElementById('characterNameModal');
+            modal.style.display = 'none';
+        }
 
-<script>
-    // Function to open the modal
-    function openModal() {
-        var modal = document.getElementById('characterNameModal');
-        modal.style.display = 'block';
-    }
-
-    // Function to close the modal
-    function closeModal() {
-        var modal = document.getElementById('characterNameModal');
-        modal.style.display = 'none';
-    }
-
-    // Add an event listener to the button
-    var generateButton = document.getElementById('generateButton');
-    if (generateButton) {
-        generateButton.addEventListener('click', openModal);
-    }
-</script>
+        // Add an event listener to the button
+        var generateButton = document.getElementById('generateButton');
+        if (generateButton) {
+            generateButton.addEventListener('click', openModal);
+        }
+    </script>
 </body>
+</html>
