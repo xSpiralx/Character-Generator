@@ -59,33 +59,58 @@
         </div>
     </div>
 
-    <!-- JavaScript code -->
-    <script>
-        // Include the 'generate_character_name' function
-        function generate_character_name(race, gender, character_class) {
-            // Your Python code for generating character names here
-            // ...
+<!-- JavaScript code -->
+<script>
+    // Include the 'generate_character_name' function
+    function generate_character_name(race, gender, character_class) {
+        // Sample character name generation logic (you can customize this)
+        var race_names = {
+            "human": ["John", "Mary", "Richard", "Eliza"],
+            "elf": ["Lorien", "Arwen", "Legolas"],
+            "dwarf": ["Thorin", "Gimli", "Kili"],
+        }
+        var gender_names = {
+            "male": ["John", "Richard", "Thorin"],
+            "female": ["Mary", "Eliza", "Arwen"],
+        }
+        var class_names = {
+            "warrior": ["Conan", "Aragorn", "Brienne"],
+            "wizard": ["Gandalf", "Merlin", "Elminster"],
         }
 
-        // Function to open the modal
-        function openModal() {
-            var modal = document.getElementById('characterNameModal');
-            var generatedName = generate_character_name("elf", "male", "warrior"); // Replace with actual values
-            document.getElementById('generatedName').textContent = generatedName;
-            modal.style.display = 'block';
-        }
+        var generated_name = randomChoice(race_names[race]) || "Unknown";
+        generated_name += " " + randomChoice(gender_names[gender]) || "Unknown";
+        generated_name += " the " + randomChoice(class_names[character_class]) || "Unknown";
 
-        // Function to close the modal
-        function closeModal() {
-            var modal = document.getElementById('characterNameModal');
-            modal.style.display = 'none';
-        }
+        return generated_name;
+    }
 
-        // Add an event listener to the button
-        var generateButton = document.getElementById('generateButton');
-        if (generateButton) {
-            generateButton.addEventListener('click', openModal);
-        }
-    </script>
+    // Helper function to select a random element from an array
+    function randomChoice(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+    
+
+    // Function to open the modal
+    function openModal() {
+        var modal = document.getElementById('characterNameModal');
+        var generatedName = generate_character_name("elf", "male", "warrior"); // Replace with actual values
+        document.getElementById('generatedName').textContent = generatedName;
+        modal.style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        var modal = document.getElementById('characterNameModal');
+        modal.style.display = 'none';
+    }
+
+    // Add an event listener to the button
+    var generateButton = document.getElementById('generateButton');
+    if (generateButton) {
+        generateButton.addEventListener('click', openModal);
+    }
+</script>
+
 </body>
 </html>
