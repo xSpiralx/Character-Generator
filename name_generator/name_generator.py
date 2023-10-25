@@ -2,15 +2,15 @@ import random
 
 
 def generate_character_name(race, gender, character_class):
-    # Sample character name generation logic (you can customize this)
+    # Name Logic
     race_names = {
-        "human": ["John", "Mary", "Richard", "Eliza"],
+        "human": ["Robb", "Mary", "Richard", "Eliza"],
         "elf": ["Lorien", "Arwen", "Legolas"],
         "dwarf": ["Thorin", "Gimli", "Kili"],
     }
     gender_names = {
-        "male": ["John", "Richard", "Thorin"],
-        "female": ["Mary", "Eliza", "Arwen"],
+        "male": ["Red", "Black", "Green"],
+        "female": ["Blue", "White", "Yellow"],
     }
     class_names = {
         "warrior": ["Conan", "Aragorn", "Brienne"],
