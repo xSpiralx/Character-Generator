@@ -2,6 +2,77 @@
 <html>
 <head>
     <style>
+        /* Your CSS styles here */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+            overflow: auto;
+        }
+
+        .modal-content {
+            position: relative;
+            margin: 15% auto;
+            padding: 20px;
+            width: 60%;
+            background-color: #000; /* Black background */
+            text-align: center;
+            color: #fff; /* White text */
+        }
+
+        .close {
+            position: absolute;
+            right: 10px;
+            top: 5px;
+            font-size: 30px;
+            cursor: pointer;
+            color: #fff; /* White close button */
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        h2 {
+            font-size: 36px;
+            color: blue;
+        }
+
+        /* Add styles for your form */
+        form {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px;
+            background-color: blue;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+    <style>
         /* Your CSS styles here for the modal */
         .modal {
             display: none;
@@ -47,9 +118,24 @@
 <body>
     <form method="post" id="characterForm">
         {% csrf_token %}
-        {{ form.as_p }}
+        
+        <label for="race">Race:</label>
+        <input type="text" id="race" name="race">
+        
+        <label>Gender:</label>
+        <input type="radio" id="male" name="gender" value="male">
+        <label for="male">Male</label>
+        
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">Female</label>
+        
+        <label for="class">Character Class:</label>
+        <input type="text" id="class" name="class">
+        
         <button type="button" id="generateButton">Generate Character Name</button>
     </form>
+    
+       
 
     <div id="characterNameModal" class="modal">
         <div class="modal-content">
@@ -65,21 +151,33 @@
     function generate_character_name(race, gender, character_class) {
         // Sample character name generation logic (you can customize this)
         var race_names = {
-            "human": ["John", "Mary", "Richard", "Eliza"],
-            "elf": ["Lorien", "Arwen", "Legolas"],
-            "dwarf": ["Thorin", "Gimli", "Kili"],
-        }
-        var gender_names = {
-            "male": ["John", "Richard", "Thorin"],
-            "female": ["Mary", "Eliza", "Arwen"],
+            "human": {
+                "male": ["John", "Richard", "Thorin", "Aaron", "Brandon", "Caleb", "Daniel", "Evan"],
+                "female": ["Mary", "Eliza", "Arwen"]
+            },
+            "elf": {
+                "male": ["Lorien", "Legolas"],
+                "female": ["Arwen"]
+            },
+            "dwarf": {
+                "male": ["Thorin", "Gimli", "Kili"],
+                "female": ["Amber", "Arrin", "Asta", "Ata", "Tyshdish", "Belnura", "Ingres", "Arros", "Bralsyl"]
+            },
+            "tiefling": {
+                "male": ["Amus", "Andzalar", "Caeran", "Bachar", "Baelze", "Casthos"],
+                "female": ["Archon", "Arshoon", ]
+            },
+            "gnome": {
+                "male": ["Thorin", "Gimli", "Kili"],
+                "female": ["Adan", "Adva", "Brenna"]
+            }
         }
         var class_names = {
             "warrior": ["Conan", "Aragorn", "Brienne"],
-            "wizard": ["Gandalf", "Merlin", "Elminster"],
+            "wizard": ["Gandalf", "Merlin", "Elminster"]
         }
 
-        var generated_name = randomChoice(race_names[race]) || "Unknown";
-        generated_name += " " + randomChoice(gender_names[gender]) || "Unknown";
+        var generated_name = randomChoice(race_names[race][gender]) || "Unknown";
         generated_name += " the " + randomChoice(class_names[character_class]) || "Unknown";
 
         return generated_name;
@@ -89,12 +187,14 @@
     function randomChoice(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
     }
-    
 
     // Function to open the modal
     function openModal() {
         var modal = document.getElementById('characterNameModal');
-        var generatedName = generate_character_name("elf", "male", "warrior"); // Replace with actual values
+        var gender = document.querySelector('input[name="gender"]:checked').value;
+        var race = document.getElementById('race').value;
+        var character_class = document.getElementById('class').value;
+        var generatedName = generate_character_name(race, gender, character_class);
         document.getElementById('generatedName').textContent = generatedName;
         modal.style.display = 'block';
     }
